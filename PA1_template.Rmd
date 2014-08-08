@@ -5,7 +5,6 @@ Reproducible Research - Peer Assessments 1
 1. Load the data (i.e. read.csv())
 
 ```{r firstchunk, echo =  TRUE}
-## load file
 setwd('D:/source_code/r/working_directory')
 raw_data <- read.csv('activity.csv')
 ```
@@ -25,14 +24,12 @@ For this part of the assignment, you can ignore the missing values in the datase
 ```{r hist_steps, fig.width=10}
 
 steps.per.day <- aggregate(steps ~ date, data = raw_data, FUN = sum, na.rm=TRUE)
-#png(file = "figure_01.png", bg = "transparent", width = 10, height = 10, res=300, units = "in")
 par(mar=c(8, 4, 4, 4)) ## bottom,left,top,right
 bp <- barplot(steps.per.day$steps, xaxt='n', yaxt='n',col=c('grey','lightblue'), main='total number of steps taken each day')
 axis(1, at = bp, labels = steps.per.day$date, las=2)
 axis(2, pos=0, las=2)
 mtext(side = 1, "date", line = 6)
 mtext(side = 2, "steps", line = 3)
-#dev.off()
 ```
 
 2. Calculate and report the mean and median total number of steps taken per day
@@ -51,9 +48,7 @@ The mean steps taken per day is `r m1`, the median `r m2`.
 
 ```{r interval, fig.width=10}
 steps.interval <- aggregate(steps ~ interval, data = raw_data, FUN = mean)
-#png(file = "figure_02.png", bg = "transparent", width = 12, height = 12, res=300, units = "in")
 plot(steps.interval, type = "l", main='time series plot')
-#dev.off()
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -98,14 +93,12 @@ for(i in c(1:nrow(mod_data))){
 
 ```{r hist_steps_mod, fig.width=12}
 steps.per.day.mod <- aggregate(steps ~ date, data = mod_data, FUN = sum, na.rm=TRUE)
-#png(file = "figure_03.png", bg = "transparent", width = 12, height = 12, res=300, units = "in")
 par(mar=c(8, 4, 4, 4)) ## bottom,left,top,right
 bp <- barplot(steps.per.day.mod$steps, xaxt='n', yaxt='n',col=c('grey','lightblue'), main='total number of steps taken each day (missing values were replaced)')
 axis(1, at = bp, labels = steps.per.day.mod$date, las=2)
 axis(2, pos=0, las=2)
 mtext(side = 1, "date", line = 6)
 mtext(side = 2, "steps", line = 3)
-#dev.off()
 ```
 
 ```{r meanandmedian_mod}
@@ -126,14 +119,11 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 ```{r weekday_weekend, fig.width=8, fig.height=8}
 require('timeDate')
-
 steps.per.interval.weekday<- aggregate(steps ~ interval, data = mod_data[isWeekday(mod_data$date, wday = 1:5),], FUN = mean, na.rm=TRUE)
 steps.per.interval.weekend<- aggregate(steps ~ interval, data = mod_data[isWeekend(mod_data$date, wday = 1:5),], FUN = mean, na.rm=TRUE)
-#png(file = "figure_04.png", bg = "transparent", width = 8, height = 8, res=300, units = "in")
 par(mfrow = c(2, 1))
 plot(steps.per.interval.weekday, type = "l", main = 'weekday',col='red')
 plot(steps.per.interval.weekend, type = "l", main = 'weekend',col='blue')
-#dev.off()
 ```
 
 

@@ -6,7 +6,6 @@ Reproducible Research - Peer Assessments 1
 
 
 ```r
-## load file
 setwd('D:/source_code/r/working_directory')
 raw_data <- read.csv('activity.csv')
 ```
@@ -27,7 +26,6 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 ```r
 steps.per.day <- aggregate(steps ~ date, data = raw_data, FUN = sum, na.rm=TRUE)
-#png(file = "figure_01.png", bg = "transparent", width = 10, height = 10, res=300, units = "in")
 par(mar=c(8, 4, 4, 4)) ## bottom,left,top,right
 bp <- barplot(steps.per.day$steps, xaxt='n', yaxt='n',col=c('grey','lightblue'), main='total number of steps taken each day')
 axis(1, at = bp, labels = steps.per.day$date, las=2)
@@ -37,10 +35,6 @@ mtext(side = 2, "steps", line = 3)
 ```
 
 ![plot of chunk hist_steps](figure/hist_steps.png) 
-
-```r
-#dev.off()
-```
 
 2. Calculate and report the mean and median total number of steps taken per day
 
@@ -60,15 +54,10 @@ The mean steps taken per day is 1.0766 &times; 10<sup>4</sup>, the median 10765.
 
 ```r
 steps.interval <- aggregate(steps ~ interval, data = raw_data, FUN = mean)
-#png(file = "figure_02.png", bg = "transparent", width = 12, height = 12, res=300, units = "in")
 plot(steps.interval, type = "l", main='time series plot')
 ```
 
 ![plot of chunk interval](figure/interval.png) 
-
-```r
-#dev.off()
-```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -116,7 +105,6 @@ for(i in c(1:nrow(mod_data))){
 
 ```r
 steps.per.day.mod <- aggregate(steps ~ date, data = mod_data, FUN = sum, na.rm=TRUE)
-#png(file = "figure_03.png", bg = "transparent", width = 12, height = 12, res=300, units = "in")
 par(mar=c(8, 4, 4, 4)) ## bottom,left,top,right
 bp <- barplot(steps.per.day.mod$steps, xaxt='n', yaxt='n',col=c('grey','lightblue'), main='total number of steps taken each day (missing values were replaced)')
 axis(1, at = bp, labels = steps.per.day.mod$date, las=2)
@@ -126,10 +114,6 @@ mtext(side = 2, "steps", line = 3)
 ```
 
 ![plot of chunk hist_steps_mod](figure/hist_steps_mod.png) 
-
-```r
-#dev.off()
-```
 
 
 ```r
@@ -151,19 +135,20 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 ```r
 require('timeDate')
+```
 
+```
+## Loading required package: timeDate
+```
+
+```r
 steps.per.interval.weekday<- aggregate(steps ~ interval, data = mod_data[isWeekday(mod_data$date, wday = 1:5),], FUN = mean, na.rm=TRUE)
 steps.per.interval.weekend<- aggregate(steps ~ interval, data = mod_data[isWeekend(mod_data$date, wday = 1:5),], FUN = mean, na.rm=TRUE)
-#png(file = "figure_04.png", bg = "transparent", width = 8, height = 8, res=300, units = "in")
 par(mfrow = c(2, 1))
 plot(steps.per.interval.weekday, type = "l", main = 'weekday',col='red')
 plot(steps.per.interval.weekend, type = "l", main = 'weekend',col='blue')
 ```
 
 ![plot of chunk weekday_weekend](figure/weekday_weekend.png) 
-
-```r
-#dev.off()
-```
 
 
